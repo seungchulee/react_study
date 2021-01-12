@@ -2,3 +2,4 @@ node_modules/
 cra-test/node_modules
 package-lock.json
 router-test/node_modules
+.DS_Store
