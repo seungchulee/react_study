@@ -3,10 +3,20 @@ import axios from "axios";
 
 const Search = () => {
     const [term, setTerm] = useState('programming');
+    const [debouncedTerm, setdebouncedTerm] = useState(term);
     const [results, setResult] = useState([])
 
     useEffect(() => {
-        // 방법 1
+        const timerId = setTimeout(() => {
+            setdebouncedTerm(term);
+        }, 1000)
+
+        return () => {
+            clearTimeout(timerId);
+        }
+    }, [term])
+
+    useEffect(() => {
         const search = async () => {
             const {data} = await axios.get("https://en.wikipedia.org/w/api.php", {
                 params: {
@@ -14,27 +24,51 @@ const Search = () => {
                     list: 'search',
                     origin: '*',
                     format: 'json',
-                    srsearch: term
+                    srsearch: debouncedTerm,
                 }
             });
             setResult(data.query.search);
-        }
-        const timeoutId = setTimeout(() => {
-            if (term) {
-                search();
-            }
-        }, 500)
+        };
+        search();
+    }, [debouncedTerm])
 
-        // 방법 2 
-        // (async () => {
-        //     await axios.get('asdad')
-        // })();
+    // useEffect(() => {
+    //     // 방법 1
+    //     const search = async () => {
+    //         const {data} = await axios.get("https://en.wikipedia.org/w/api.php", {
+    //             params: {
+    //                 action: 'query',
+    //                 list: 'search',
+    //                 origin: '*',
+    //                 format: 'json',
+    //                 srsearch: term
+    //             }
+    //         });
+    //         setResult(data.query.search);
+    //     }
+    //     if (term && !results.length) {
+    //         search();
+    //     } else {
+    //         const timeoutId = setTimeout(() => {
+    //             if (term) {
+    //                 search();
+    //             }
+    //         }, 500);
+    
+    //         return () => {
+    //             clearTimeout(timeoutId);
+    //         }
+    //     }
+    //     // 방법 2 
+    //     // (async () => {
+    //     //     await axios.get('asdad')
+    //     // })();
 
-        // 방법 3
-        // axios.get('asdf').then((response) => {
-        //     console.log(response.data);
-        // })
-    }, [term])
+    //     // 방법 3
+    //     // axios.get('asdf').then((response) => {
+    //     //     console.log(response.data);
+    //     // })
+    // }, [term, results.length])
 
     const renderedResults = results.map((result) => {
         return (
