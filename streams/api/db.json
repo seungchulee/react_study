@@ -1,0 +1,25 @@
+{
+  "streams": [
+    {
+      "title": "f",
+      "description": "d",
+      "id": 1
+    },
+    {
+      "title": "d",
+      "description": "f",
+      "id": 2
+    },
+    {
+      "title": "d",
+      "description": "ddf",
+      "id": 3
+    },
+    {
+      "title": "inthetelevision",
+      "description": "hohoho",
+      "userId": "117068093051477802727",
+      "id": 4
+    }
+  ]
+}
